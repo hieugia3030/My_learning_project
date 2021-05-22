@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
-    data['time'] = data['time'].add(Duration(seconds: SecondPassed + data['timePassed']));
+    data['time'] = data['time'].add(Duration(seconds: SecondPassed ));
     SecondPassed = 0;
     Color bgColor = data['isDaytime'] ? Colors.blue : Colors.blue[900];
     String bgImage = data['isDaytime'] ? 'day.png' : 'night.png';

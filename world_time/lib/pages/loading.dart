@@ -22,7 +22,6 @@ class _LoadingState extends State<Loading> {
     'flag':  instance.flag,
     'time': instance.time,
     'isDaytime' : instance.isDaytime,
-    'timePassed': 0,
   });
 
   }
@@ -30,7 +29,6 @@ class _LoadingState extends State<Loading> {
 void initState(){
     super.initState();
     setupWorldTime();
-
   }
   @override
   Widget build(BuildContext context) {

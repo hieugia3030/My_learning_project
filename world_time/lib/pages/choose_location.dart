@@ -9,9 +9,7 @@ class ChooseLocation extends StatefulWidget {
   _ChooseLocationState createState() => _ChooseLocationState();
 }
 
-int SecondPassed = 0;   // đếm thời gian đã trôi qua khi từ Home Navigate sang Timer
-Timer timer;  // kiểm soát bộ đếm của mik ;) ví dụ: timer.cancel() ở bất  cứ đâu ;)
-bool isChangedLocation = false;
+
 
 class _ChooseLocationState extends State<ChooseLocation> {
   List<WorldTime> locations = [
@@ -32,18 +30,10 @@ class _ChooseLocationState extends State<ChooseLocation> {
       'flag':  instance.flag,
       'time': instance.time,
       'isDaytime' : instance.isDaytime,
-      'timePassed': 0,
     }
     );
 }
-  @override
-  void initState(){
-    super.initState();
-    timer = Timer.periodic(Duration(seconds: 1), (timer)  {
-      SecondPassed++;
-      print(SecondPassed);
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,19 +41,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         backgroundColor: Colors.amber,
         title: Text('Choose location'),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.ac_unit),
-          onPressed: (){
-            Navigator.pop(context,
-                {
-              'timePassed': SecondPassed,
 
-            }
-            );
-            timer.cancel();
-            SecondPassed = 0;
-          },
-        ),
       ),
       body: ListView.builder(
           itemCount: locations.length,
