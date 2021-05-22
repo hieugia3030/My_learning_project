@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_time/services/world_time.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:async';
 
 
 class Loading extends StatefulWidget {
@@ -33,20 +32,20 @@ void initState(){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.blue[800],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SpinKitDoubleBounce(
-              color: Colors.white54,
+            SpinKitCubeGrid	(
+              color: Colors.lightBlueAccent,
               size: 100.0,
             ),
             SizedBox(height: 20.0),
             Text(
               "Đang tải ... ",
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.lightBlueAccent,
                 fontSize: 28.0,
               ),
             ),

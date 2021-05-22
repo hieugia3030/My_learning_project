@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
-    data['time'] = data['time'].add(Duration(seconds: SecondPassed ));
+    data['time'] = data['time'].add(Duration(seconds: SecondPassed + 2  )); // số 2 ở đây là để chình lại thời gian cho đúng thui vì đồng hồ bị sai mất 2 giây
     SecondPassed = 0;
     Color bgColor = data['isDaytime'] ? Colors.blue : Colors.blue[900];
     String bgImage = data['isDaytime'] ? 'day.png' : 'night.png';
@@ -215,8 +215,10 @@ class _MyTimerState extends State<MyTimer> {
           style: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
+            color: Colors.purpleAccent,
           ),
         ),
+        centerTitle: true,
       ),
       body: Center(
           child: CircularCountDownTimer(
@@ -322,7 +324,10 @@ class _MyTimerState extends State<MyTimer> {
         child: ElevatedButton(
       child: Text(
         title,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(
+            color: Colors.white,
+          fontSize: 11.0,
+        ),
       ),
       onPressed: onPressed,
     ));
