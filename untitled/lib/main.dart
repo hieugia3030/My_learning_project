@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/app/sign_in/sign_in_page.dart';
+import 'package:untitled/app/landing-page.dart';
+import 'package:untitled/services/auth.dart';
 
 void main () => runApp(MyApp());
 
@@ -14,7 +15,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
 
       ),
-      home: SignInPage(),
+      home: LandingPage(
+        auth: Auth(),
+      ),
     );
   }
 }
