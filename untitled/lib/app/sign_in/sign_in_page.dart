@@ -6,18 +6,33 @@ import 'package:untitled/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
 
-  SignInPage({@required this.onSignIn, @required this.auth});
+  SignInPage({ @required this.auth});
 
-  final Function(User) onSignIn;
+
   final AuthBase auth;
 
   Future<void> _signInAnonymously() async{
    try {
-       User user = await auth.signInAnonymously();
-       onSignIn(user);
+       await auth.signInAnonymously();
     } catch(e){
      print(e.toString());
    }
+  }
+
+  Future<void> _signInWithGoogle() async{
+    try {
+      await auth.signInWithGoogle();
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
+  Future<void> _signInWithFacebook() async{
+    try {
+      await auth.signInWithFacebook();
+    } catch(e){
+      print(e.toString());
+    }
   }
 
   @override
@@ -51,10 +66,10 @@ class SignInPage extends StatelessWidget {
           SizedBox(height: 48.0),
           SocialSignInButton(
             text: 'Sign in with Google',
-            color: Colors.white,
+            color: Colors.white60,
             textColor: Colors.black87,
             assetName: 'google-logo',
-            onPressed: (){},
+            onPressed: _signInWithGoogle,
           ),
           SizedBox(height: 8.0),
           SocialSignInButton(
@@ -63,7 +78,7 @@ class SignInPage extends StatelessWidget {
             textColor: Colors.white,
             assetName: 'facebook-logo',
 
-            onPressed: (){},
+            onPressed: _signInWithFacebook,
           ),
           SizedBox(height: 8.0),
           SocialSignInButton(
