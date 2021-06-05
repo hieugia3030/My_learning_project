@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/app/sign_in/validator.dart';
 import 'package:untitled/common_widgets/form_submit_button.dart';
+import 'package:untitled/common_widgets/platform_alert_dialog.dart';
 import 'package:untitled/services/auth.dart';
+import 'package:untitled/services/failded_sign_in_alert.dart';
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidator{
   EmailSignInForm({this.auth});
@@ -17,6 +19,7 @@ enum EmailSignInType{
 class _EmailSignInFormState extends State<EmailSignInForm> {
 
    EmailSignInType _formType = EmailSignInType.signIn;
+   FailedSignInAlert _alert = FailedSignInAlert();
 
   final TextEditingController _emailController = TextEditingController();  // kiểm soát các textfield, ví dụ lấy text tù đó: _emailController.text, hay xóa : _emailController.clear();
   final TextEditingController _passwordController = TextEditingController();
@@ -43,7 +46,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
       Navigator.of(context).pop();
     } catch (e){
-      print(e.toString());
+      PlatformAlertDialog(
+        content: _alert.showAlertString(e.toString()),
+        title: 'Đăng nhập thất bại',
+        defaultActionText: 'OK',
+      ).show(context);
     } finally{
     FocusScope.of(context).unfocus();
     setState(() {
@@ -60,9 +67,14 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     _emailController.clear();
     _passwordController.clear();
   }
+
+  void _onEditingEmailComplete (){
+    final newNode = widget.emailValidator.isValid(_email) ? _passwordFocusNode : _emailFocusNode;
+    FocusScope.of(context).requestFocus(newNode);
+  }
   List<Widget> _buildChildren(){
-    String  primaryText = (_formType == EmailSignInType.signIn) ? 'Sign In' : 'Register';
-    String secondaryText = (_formType == EmailSignInType.register) ? 'Had an account? Sign in' : 'Need an account? Register';
+    String  primaryText = (_formType == EmailSignInType.signIn) ? 'Đăng nhập' : 'Đăng kí';
+    String secondaryText = (_formType == EmailSignInType.register) ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng kí';
 
     bool submitEnabled = !_isLoading && widget.emailValidator.isValid(_email) && widget.passwordValidator.isValid(_password); // kiểm tra xem email và password có đúng mẫu ko?????
 
@@ -109,6 +121,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onChanged: (email) => _updateState(),
+      onEditingComplete: _onEditingEmailComplete,
     );
   }
 

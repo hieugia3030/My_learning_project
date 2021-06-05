@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/common_widgets/platform_alert_dialog.dart';
 import 'package:untitled/services/auth.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,6 +15,18 @@ class HomePage extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmSignOut(BuildContext context) async{
+    final didRequestSignOut = await PlatformAlertDialog(
+        title: 'Đăng xuất',
+        content: 'Bạn có chắc không ?',
+        defaultActionText: 'Có',
+      cancelText: 'Không',
+    ).show(context);
+    if (didRequestSignOut == true){
+      _signOut();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +36,13 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           TextButton(
             child: Text(
-                'Sign out',
+                'Đăng xuất',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
               ),
             ),
-            onPressed: _signOut,
+            onPressed: () => _confirmSignOut(context),
           ),
         ],
       ),

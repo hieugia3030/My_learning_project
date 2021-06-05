@@ -55,69 +55,72 @@ class SignInPage extends StatelessWidget {
         centerTitle: true,
         elevation: 2.0,
       ),
-      body: _buildContent(context),
+      body:  _buildContent(context),
     );
   }
 
   Widget _buildContent(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget> [
-          Text(
-              'Sign In',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 32.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 48.0),
-          SocialSignInButton(
-            text: 'Sign in with Google',
-            color: Colors.white60,
-            textColor: Colors.black87,
-            assetName: 'google-logo',
-            onPressed: _signInWithGoogle,
-          ),
-          SizedBox(height: 8.0),
-          SocialSignInButton(
-            text: 'Sign in with Facebook',
-            color: Color(0xFF334D92),
-            textColor: Colors.white,
-            assetName: 'facebook-logo',
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget> [
+              Text(
+                  'Đăng nhập',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 48.0),
+              SocialSignInButton(
+                text: 'Đăng nhập bằng Google',
+                color: Colors.white60,
+                textColor: Colors.black87,
+                assetName: 'google-logo',
+                onPressed: _signInWithGoogle,
+              ),
+              SizedBox(height: 8.0),
+              SocialSignInButton(
+                text: 'Đăng nhập bằng Facebook',
+                color: Color(0xFF334D92),
+                textColor: Colors.white,
+                assetName: 'facebook-logo',
 
-            onPressed: _signInWithFacebook,
-          ),
-          SizedBox(height: 8.0),
-          SocialSignInButton(
-            assetName: 'email-logo',
-            text: 'Sign In with email',
-            textColor: Colors.white,
-            color: Colors.blue[600],
-            onPressed: () => _signInWithEmail(context),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'or',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.black87,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          SignInButton(
-            text: 'Go anonymous',
-            textColor: Colors.black,
+                onPressed: _signInWithFacebook,
+              ),
+              SizedBox(height: 8.0),
+              SocialSignInButton(
+                assetName: 'email-logo',
+                text: 'Đăng nhập bằng Email',
+                textColor: Colors.white,
+                color: Colors.blue[600],
+                onPressed: () => _signInWithEmail(context),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'hoặc',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              SignInButton(
+                text: 'Đăng nhập ẩn danh',
+                textColor: Colors.black,
 
-            color: Colors.lime[700],
-            onPressed: _signInAnonymously,
-          ),
+                color: Colors.lime[700],
+                onPressed: _signInAnonymously,
+              ),
 
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
