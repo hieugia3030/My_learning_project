@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/app/sign_in/email_sign_in_model.dart';
 import 'package:untitled/app/sign_in/validator.dart';
 import 'package:untitled/common_widgets/form_submit_button.dart';
-import 'package:untitled/common_widgets/platform_alert_dialog.dart';
+import 'package:untitled/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:untitled/services/auth.dart';
-import 'package:untitled/services/failded_sign_in_alert.dart';
 
-class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidator{
-  EmailSignInForm({this.auth});
-  final AuthBase auth;
+class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidator{
+
   @override
-  _EmailSignInFormState createState() => _EmailSignInFormState();
+  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
 }
 
-enum EmailSignInType{
-  signIn,
-  register
-}
-class _EmailSignInFormState extends State<EmailSignInForm> {
+
+class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
 
    EmailSignInType _formType = EmailSignInType.signIn;
-   FailedSignInAlert _alert = FailedSignInAlert();
 
   final TextEditingController _emailController = TextEditingController();  // kiểm soát các textfield, ví dụ lấy text tù đó: _emailController.text, hay xóa : _emailController.clear();
   final TextEditingController _passwordController = TextEditingController();
@@ -32,24 +29,34 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   bool _submited = false;
   bool _isLoading = false;
 
-  void _submit() async{
+  @override
+  void dispose(){
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async{
     setState(() {
       _isLoading = true;
       _submited = true;
     });
     // TODO: Print email and password
     try{
+      final auth = Provider.of<AuthBase>(context, listen: false) ;
       if (_formType == EmailSignInType.signIn) {
-        await widget.auth.signInWithEmailAndPassword(_email, _password);
+        await auth.signInWithEmailAndPassword(_email, _password);
       } else {
-        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
-    } catch (e){
-      PlatformAlertDialog(
-        content: _alert.showAlertString(e.toString()),
+    } on PlatformException catch (e){
+      PlatformExceptionAlertDialog(
+        exception : e,
         title: 'Đăng nhập thất bại',
-        defaultActionText: 'OK',
+
       ).show(context);
     } finally{
     FocusScope.of(context).unfocus();
