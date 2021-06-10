@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled/app/home_page.dart';
+import 'package:untitled/app/home/jobs_page.dart';
 import 'package:untitled/app/sign_in/sign_in_page.dart';
 import 'package:untitled/services/auth.dart';
+import 'package:untitled/services/database.dart';
 
 
 // đây là 1 trang điều hướng
@@ -20,7 +21,10 @@ class LandingPage extends StatelessWidget {
         if(user ==  null){
           return SignInPage.create(context);
         }
-         return HomePage();
+         return Provider<Database>(
+           create: (_) => FirestoreDatabase(uid: user.uid),
+             child: JobsPage(),
+         );
         }
         else {
           return Scaffold(
