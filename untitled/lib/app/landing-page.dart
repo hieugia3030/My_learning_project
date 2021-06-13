@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled/app/home/jobs_page.dart';
+import 'package:untitled/app/home/edit_job_page.dart';
+import 'package:untitled/app/home/properties_of_jobs_page/models/job.dart';
 import 'package:untitled/app/sign_in/sign_in_page.dart';
 import 'package:untitled/services/auth.dart';
 import 'package:untitled/services/database.dart';
@@ -23,7 +24,11 @@ class LandingPage extends StatelessWidget {
         }
          return Provider<Database>(
            create: (_) => FirestoreDatabase(uid: user.uid),
-             child: JobsPage(),
+             child: EditJobPage(job: Job(
+               id: null,
+               name: null,
+               ratePerHour: null,
+             ),),
          );
         }
         else {

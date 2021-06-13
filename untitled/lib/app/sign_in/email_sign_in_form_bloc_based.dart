@@ -8,7 +8,7 @@ import 'package:untitled/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:untitled/services/auth.dart';
 
 class EmailSignInFormBlocBased extends StatefulWidget {
-   EmailSignInFormBlocBased({Key key, this.bloc}) : super(key: key);
+   EmailSignInFormBlocBased({Key key, @required this.bloc}) : super(key: key);
    final EmailSignInBloc bloc;
 
    static Widget create(BuildContext context){
