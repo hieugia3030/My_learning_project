@@ -9,7 +9,7 @@ class PlatformAlertDialog extends PlatformWidget{
   @required this.content,
     @required this.defaultActionText,
     this.cancelText,
-  }) : assert(title != null), assert( content != null), assert(defaultActionText != null);
+  }) : assert(title != null), assert(content != null), assert(defaultActionText != null);
   final String title;
   final String content;
   final String defaultActionText;

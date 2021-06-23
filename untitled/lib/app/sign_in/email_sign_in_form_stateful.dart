@@ -8,7 +8,9 @@ import 'package:untitled/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:untitled/services/auth.dart';
 
 class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidator{
-
+   EmailSignInFormStateful({Key key, this.onSignedIn, this.onRegistered}) : super(key: key);
+  final VoidCallback onSignedIn;
+  final VoidCallback onRegistered;
   @override
   _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
 }
@@ -48,15 +50,20 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
       final auth = Provider.of<AuthBase>(context, listen: false) ;
       if (_formType == EmailSignInType.signIn) {
         await auth.signInWithEmailAndPassword(_email, _password);
+        if(widget.onSignedIn != null){
+          widget.onSignedIn();
+        }
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
+        if(widget.onRegistered != null){
+          widget.onRegistered();
+        }
       }
-      Navigator.of(context).pop();
+
     } on PlatformException catch (e){
       PlatformExceptionAlertDialog(
         exception : e,
         title: 'Đăng nhập thất bại',
-
       ).show(context);
     } finally{
     FocusScope.of(context).unfocus();
@@ -71,7 +78,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
       _submited = false;
       _formType = _formType == EmailSignInType.signIn ? EmailSignInType.register : EmailSignInType.signIn;
     });
-    _emailController.clear();
+    _emailController. clear();
     _passwordController.clear();
   }
 
@@ -116,6 +123,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   TextField _buildEmailTextField() {
     bool showErrorText = _submited && !widget.emailValidator.isValid(_email);
     return TextField(
+      key: Key('email'),
       controller: _emailController,
     focusNode: _emailFocusNode,
     decoration: InputDecoration(
@@ -135,6 +143,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   TextField _buildPasswordTextField() {
     bool showErrorText = _submited && !widget.passwordValidator.isValid(_password);
     return TextField(
+      key: Key('password'),
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(

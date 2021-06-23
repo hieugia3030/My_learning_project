@@ -34,10 +34,12 @@ dependencies:
   provider: ^5.0.0
   cloud_firestore: ^0.12.9+5
   intl: ^0.16.0
+  rxdart: ^0.22.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^4.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

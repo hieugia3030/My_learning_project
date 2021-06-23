@@ -3,8 +3,8 @@ import 'package:untitled/app/home/properties_of_jobs_page/empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function ( BuildContext context, T item);
 
-class ListItemBuilder<T> extends StatelessWidget {
-  const ListItemBuilder({Key key, @required this.snapshot, @required this.itemBuilder}) : super(key: key);
+class ListItemsBuilder<T> extends StatelessWidget {
+  const ListItemsBuilder({Key key, @required this.snapshot, @required this.itemBuilder}) : super(key: key);
 
   final AsyncSnapshot<List<T>> snapshot;
   final ItemWidgetBuilder<T> itemBuilder;

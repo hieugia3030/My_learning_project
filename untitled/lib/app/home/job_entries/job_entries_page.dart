@@ -13,9 +13,8 @@ import 'package:untitled/app/home/properties_of_jobs_page/models/job.dart';
 import 'package:untitled/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:untitled/services/database.dart';
 
-
 class JobEntriesPage extends StatelessWidget {
-   JobEntriesPage({@required this.database, @required this.job});
+  JobEntriesPage({@required this.database, @required this.job});
   final Database database;
   final Job job;
 
@@ -28,6 +27,7 @@ class JobEntriesPage extends StatelessWidget {
       ),
     );
   }
+
   Future<void> _deleteEntry(BuildContext context, Entry entry) async {
     try {
       await database.deleteEntry(entry);
@@ -40,53 +40,52 @@ class JobEntriesPage extends StatelessWidget {
   }
 
   void _navigateToJobForm(BuildContext context, {Job job, Database database}) {
-        Navigator.of(context).push(
-        MaterialPageRoute(
-          fullscreenDialog: true,
-          builder: (_) => JobForm.create(context, job: job, database: database),
-        ),
-      );
+    Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (_) => JobForm.create(context, job: job, database: database),
+      ),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Job>(
-      stream: database.jobStream(jobID: job.id),
-      builder: (context, snapshot) {
-        final job = snapshot.data;
-        final jobName = job?.name ?? '';
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 2.0,
-            title: Text(jobName),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Edit',
-                  style: TextStyle(fontSize: 18.0, color: Colors.white),
+        stream: database.jobStream(jobID: job.id),
+        builder: (context, snapshot) {
+          final job = snapshot.data;
+          final jobName = job?.name ?? '';
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 2.0,
+              title: Text(jobName),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () => EntryPage.show(
+                      context: context, database: database, job: job),
                 ),
-                onPressed: () => _navigateToJobForm(context, job: job, database: database),
-              ),
-            ],
-          ),
-          body: _buildContent(context, job),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 36.0),
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () =>
-                  EntryPage.show(context: context, database: database, job: job),
+                TextButton(
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                  ),
+                  onPressed: () =>
+                      _navigateToJobForm(context, job: job, database: database),
+                ),
+              ],
             ),
-          ),
-        );
-      }
-    );
+            body: _buildContent(context, job),
+
+          );
+        });
   }
 
   Widget _buildContent(BuildContext context, Job job) {
     return StreamBuilder<List<Entry>>(
       stream: database.entriesStream(job: job),
       builder: (context, snapshot) {
-        return ListItemBuilder<Entry>(
+        return ListItemsBuilder<Entry>(
           snapshot: snapshot,
           itemBuilder: (context, entry) {
             return DismissibleEntryListItem(

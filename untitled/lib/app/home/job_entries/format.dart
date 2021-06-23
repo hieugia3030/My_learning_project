@@ -19,8 +19,9 @@ class Format {
 
   static String currency(double pay) {
     if (pay != 0.0) {
-      final formatter = NumberFormat.simpleCurrency(decimalDigits: 0);
+      final formatter = NumberFormat.simpleCurrency(decimalDigits: 1);
       return formatter.format(pay);
+
     }
     return '';
   }
